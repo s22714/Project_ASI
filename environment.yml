@@ -1,0 +1,12 @@
+name: news-popularity
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.9
+  - matplotlib
+  - seaborn
+  - pandas
+  - scikit-learn
+  - numpy
+  - pip
