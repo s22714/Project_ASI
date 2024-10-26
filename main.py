@@ -1,26 +1,42 @@
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
+from src.data_extraction import load_data
+from src.data_preparation import prepare_data, split_data
+from src.model_training import (
+    train_linear_regression,
+    train_decision_tree,
+    get_predictions
+)
+from src.model_evaluation import calculate_metrics, print_metrics
+from src.data_analysis import analyze_data, plot_results
 
-df = pd.read_csv("OnlineNewsPopularity.csv", index_col=False).drop('url', axis=1)
-df.columns = df.columns.str.strip()
 
-train, test = train_test_split(df, test_size=0.3)
+def main():
+    # Data extraction
+    df = load_data()
 
-features = list(df.columns[:-1])
+    # Data preparation
+    X, y = prepare_data(df)
+    X_train, X_test, y_train, y_test = split_data(X, y)
 
-X_train = train.loc[:, features]
-y_train = train['shares']
+    # Model training
+    linear_model = train_linear_regression(X_train, y_train)
+    decision_tree_model = train_decision_tree(X_train, y_train)
 
-X_test = test.loc[:, features]
-y_test= test['shares']
+    # Get predictions
+    linear_predictions = get_predictions(linear_model, X_test)
+    dec_tree_preds = get_predictions(decision_tree_model, X_test)
 
-model = LinearRegression().fit(X_train,y_train)
+    # Model evaluation
+    linear_metrics = calculate_metrics(y_test, linear_predictions)
+    tree_metrics = calculate_metrics(y_test, dec_tree_preds)
 
-predictions = model.predict(X_test)
+    # Print evaluation results
+    print_metrics(linear_metrics, "linear regression")
+    print_metrics(tree_metrics, "decision trees")
 
-rmse = np.sqrt(mean_squared_error(y_test, predictions))
-print('RMSE = ', rmse)
+    # Data analysis
+    min_outliers, max_outliers, feature_importance, correlation_matrix = analyze_data(df)
+    plot_results(min_outliers, max_outliers, feature_importance, correlation_matrix)
 
+
+if __name__ == "__main__":
+    main()
