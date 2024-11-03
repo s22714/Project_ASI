@@ -1,4 +1,5 @@
 import numpy as np
+import wandb
 from sklearn.metrics import (
     r2_score,
     mean_squared_error,
@@ -16,6 +17,13 @@ def calculate_metrics(y_test, predictions):
     rmse = root_mean_squared_error(y_test, predictions)
     medae = median_absolute_error(y_test, predictions)
     evs = explained_variance_score(y_test, predictions)
+
+    wandb.log({"mean squared error" : mse})
+    wandb.log({"r2": r2})
+    wandb.log({"mean absolute error": abs_error})
+    wandb.log({"root mean squared error": rmse})
+    wandb.log({"median absolute error": medae})
+    wandb.log({"explained variance score": evs})
 
     return {
         'mse': mse,

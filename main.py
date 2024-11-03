@@ -1,3 +1,5 @@
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+
 from src.data_extraction import load_data
 from src.data_preparation import prepare_data, split_data
 from src.model_training import (
@@ -9,8 +11,7 @@ from src.model_evaluation import calculate_metrics, print_metrics
 from src.data_analysis import analyze_data, plot_results
 
 import wandb
-from wandb.sklearn import plot_precision_recall, plot_feature_importances, plot_outlier_candidates
-from wandb.sklearn import plot_class_proportions, plot_learning_curve, plot_roc
+from wandb.sklearn import plot_precision_recall, plot_feature_importances, plot_learning_curve
 
 
 def wandb_logging(test_size, df, X, y, X_train, X_test, y_train, y_test, model, project_name):
@@ -32,8 +33,6 @@ def wandb_logging(test_size, df, X, y, X_train, X_test, y_train, y_test, model, 
     wandb.sklearn.plot_residuals(model, X, y)
     wandb.sklearn.plot_summary_metrics(model, X, y, X_test, y_test)
 
-    wandb.finish()
-
 
 def main():
 
@@ -53,9 +52,12 @@ def main():
     dec_tree_preds = get_predictions(decision_tree_model, X_test)
 
     # Model evaluation
+    wandb_logging(0.2, df, X, y, X_train, X_test, y_train, y_test, linear_model, "ASI_linear_regression_2")
     linear_metrics = calculate_metrics(y_test, linear_predictions)
+    wandb.finish()
+    wandb_logging(0.2, df, X, y, X_train, X_test, y_train, y_test, decision_tree_model, "ASI_tree_model_2")
     tree_metrics = calculate_metrics(y_test, dec_tree_preds)
-
+    wandb.finish()
     # Print evaluation results
     print_metrics(linear_metrics, "linear regression")
     print_metrics(tree_metrics, "decision trees")
@@ -64,8 +66,7 @@ def main():
     min_outliers, max_outliers, feature_importance, correlation_matrix = analyze_data(df)
     plot_results(min_outliers, max_outliers, feature_importance, correlation_matrix)
 
-    wandb_logging(0.2, df, X, y, X_train, X_test, y_train, y_test, linear_model, "ASI_linear_regression")
-    wandb_logging(0.2, df, X, y, X_train, X_test, y_train, y_test, decision_tree_model, "ASI_tree_model")
+
 
 
 if __name__ == "__main__":
