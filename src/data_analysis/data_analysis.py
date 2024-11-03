@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import numpy as np
 from sklearn.feature_selection import f_regression
 
 
@@ -67,3 +68,4 @@ def plot_results(min_outliers, max_outliers, feature_importance, correlation_mat
     sns.heatmap(correlation_matrix, cmap='coolwarm', annot=False, linewidths=0.5)
     plt.title('Macierz korelacji')
     plt.show()
+
