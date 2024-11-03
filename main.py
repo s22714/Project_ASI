@@ -8,8 +8,35 @@ from src.model_training import (
 from src.model_evaluation import calculate_metrics, print_metrics
 from src.data_analysis import analyze_data, plot_results
 
+import wandb
+from wandb.sklearn import plot_precision_recall, plot_feature_importances, plot_outlier_candidates
+from wandb.sklearn import plot_class_proportions, plot_learning_curve, plot_roc
+
+
+def wandb_logging(test_size, df, X, y, X_train, X_test, y_train, y_test, model, project_name):
+    # create wandb session
+    wandb.init(project=project_name, config=model.get_params())
+
+    wandb.config.update({"test_size": test_size,
+                         "train_len": len(X_train),
+                         "test_len": len(X_test)})
+
+    # wandb Logs
+    wandb.run.log({"Dataset": wandb.Table(dataframe=df)})
+
+    plot_learning_curve(model, X, y)
+    wandb.sklearn.plot_regressor(model, X_train, X_test, y_train, y_test, "modello")
+    plot_feature_importances(model)
+
+    wandb.sklearn.plot_outlier_candidates(model, X, y)
+    wandb.sklearn.plot_residuals(model, X, y)
+    wandb.sklearn.plot_summary_metrics(model, X, y, X_test, y_test)
+
+    wandb.finish()
+
 
 def main():
+
     # Data extraction
     df = load_data()
 
@@ -36,6 +63,9 @@ def main():
     # Data analysis
     min_outliers, max_outliers, feature_importance, correlation_matrix = analyze_data(df)
     plot_results(min_outliers, max_outliers, feature_importance, correlation_matrix)
+
+    wandb_logging(0.2, df, X, y, X_train, X_test, y_train, y_test, linear_model, "ASI_linear_regression")
+    wandb_logging(0.2, df, X, y, X_train, X_test, y_train, y_test, decision_tree_model, "ASI_tree_model")
 
 
 if __name__ == "__main__":
