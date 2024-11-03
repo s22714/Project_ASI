@@ -13,6 +13,7 @@ from news_online_popularity.pipelines.ASI.model_training import (
 )
 from news_online_popularity.pipelines.ASI.model_evaluation import calculate_metrics, print_metrics
 from news_online_popularity.pipelines.ASI.data_analysis import analyze_data, plot_results
+from news_online_popularity.pipelines.ASI.wandb_logging import wandb_logging, end_wandb_logging
 
 def create_pipeline(**kwargs) -> Pipeline:
     return pipeline([
@@ -41,10 +42,10 @@ def create_pipeline(**kwargs) -> Pipeline:
             name="linear_model_node",
         ),
         node(
-            func=train_decision_tree,
-            inputs=["X_train","y_train"],
-            outputs="decision_tree",
-            name="tree_model_node",
+            func=wandb_logging,
+            inputs=["df", "X", "y", "X_train", "X_test", "y_train", "y_test", "linear_regression", "params:linear_regression_name"],
+            outputs=None,
+            name="linear_wandb_start_node",
         ),
         node(
             func=get_predictions,
@@ -53,22 +54,10 @@ def create_pipeline(**kwargs) -> Pipeline:
             name="linear_predictions_node",
         ),
         node(
-            func=get_predictions,
-            inputs=["decision_tree","X_test"],
-            outputs="tree_predictions",
-            name="tree_predictions_node",
-        ),
-        node(
             func=calculate_metrics,
             inputs=["y_test","linear_predictions"],
             outputs="linear_metrics",
             name="linear_metrics_node",
-        ),
-        node(
-            func=calculate_metrics,
-            inputs=["y_test","tree_predictions"],
-            outputs="tree_metrics",
-            name="tree_metrics_node",
         ),
         node(
             func=print_metrics,
@@ -77,10 +66,47 @@ def create_pipeline(**kwargs) -> Pipeline:
             name="linear_metrics_print_node",
         ),
         node(
+            func=end_wandb_logging,
+            inputs=["df"],
+            outputs=None,
+            name="end_linear_wandb_logging_node",
+        ),
+        node(
+            func=train_decision_tree,
+            inputs=["X_train","y_train"],
+            outputs="decision_tree",
+            name="tree_model_node",
+        ),
+        node(
+            func=wandb_logging,
+            inputs=["df", "X", "y", "X_train", "X_test", "y_train", "y_test", "decision_tree", "params:decision_tree_name"],
+            outputs=None,
+            name="tree_wandb_start_node",
+        ),
+        node(
+            func=get_predictions,
+            inputs=["decision_tree","X_test"],
+            outputs="tree_predictions",
+            name="tree_predictions_node",
+        ),
+        
+        node(
+            func=calculate_metrics,
+            inputs=["y_test","tree_predictions"],
+            outputs="tree_metrics",
+            name="tree_metrics_node",
+        ),
+        node(
             func=print_metrics,
             inputs=["tree_metrics","params:decision_tree_name"],
             outputs=None,
             name="tree_metrics_print_node",
+        ),
+        node(
+            func=end_wandb_logging,
+            inputs=["df"],
+            outputs=None,
+            name="end_tree_wandb_logging_node",
         ),
         node(
             func=analyze_data,

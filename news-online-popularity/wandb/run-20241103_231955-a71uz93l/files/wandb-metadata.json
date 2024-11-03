@@ -1,0 +1,33 @@
+{
+  "os": "Windows-10-10.0.22631-SP0",
+  "python": "3.11.2",
+  "startedAt": "2024-11-03T22:19:55.374519Z",
+  "args": [
+    "run"
+  ],
+  "program": "-m __main__",
+  "git": {
+    "remote": "https://github.com/s22714/Project_ASI.git",
+    "commit": "d05c45b8432e7fa63281ceb81185bf2f3a2b5dde"
+  },
+  "email": "s22714@pjwstk.edu.pl",
+  "root": "D:\\ASI\\Project_ASI\\news-online-popularity",
+  "host": "DESKTOP-P4596CD",
+  "username": "janka",
+  "executable": "D:\\ASI\\ASI_kedro\\.venv\\Scripts\\python.exe",
+  "cpu_count": 6,
+  "cpu_count_logical": 12,
+  "disk": {
+    "/": {
+      "total": "3000574668800",
+      "used": "1124120817664"
+    }
+  },
+  "memory": {
+    "total": "17099751424"
+  },
+  "cpu": {
+    "count": 6,
+    "countLogical": 12
+  }
+}
