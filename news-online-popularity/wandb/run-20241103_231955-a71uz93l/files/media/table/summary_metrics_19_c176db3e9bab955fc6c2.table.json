@@ -1,0 +1,1 @@
+{"columns": ["metric_name", "metric_value", "model_name"], "data": [["mae", 769.93, "DecisionTreeRegressor"], ["mse", 36296015.33, "DecisionTreeRegressor"], ["r2_score", 0.7, "DecisionTreeRegressor"]]}
