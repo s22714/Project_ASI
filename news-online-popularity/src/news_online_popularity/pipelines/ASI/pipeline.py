@@ -55,7 +55,7 @@ def create_pipeline(**kwargs) -> Pipeline:
         ),
         node(
             func=calculate_metrics,
-            inputs=["y_test","linear_predictions"],
+            inputs=["linear_regression", "X_train", "y_train","y_test","linear_predictions"],
             outputs="linear_metrics",
             name="linear_metrics_node",
         ),
@@ -92,7 +92,7 @@ def create_pipeline(**kwargs) -> Pipeline:
         
         node(
             func=calculate_metrics,
-            inputs=["y_test","tree_predictions"],
+            inputs=["decision_tree", "X_train", "y_train","y_test","tree_predictions"],
             outputs="tree_metrics",
             name="tree_metrics_node",
         ),

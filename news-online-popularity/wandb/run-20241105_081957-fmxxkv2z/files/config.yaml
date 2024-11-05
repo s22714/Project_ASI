@@ -1,0 +1,68 @@
+_wandb:
+    value:
+        cli_version: 0.18.5
+        m: []
+        python_version: 3.11.2
+        t:
+            "1":
+                - 5
+                - 53
+                - 55
+                - 105
+            "2":
+                - 5
+                - 53
+                - 55
+                - 105
+            "3":
+                - 16
+                - 23
+                - 24
+                - 55
+            "4": 3.11.2
+            "5": 0.18.5
+            "8":
+                - 3
+                - 5
+            "12": 0.18.5
+            "13": windows-amd64
+        viz:
+            feature_importances:
+                historyFieldSettings:
+                    key: feature_importances
+                    x-axis: _step
+                id: wandb/feature_importances/v1
+            learning_curve:
+                historyFieldSettings:
+                    key: learning_curve
+                    x-axis: _step
+                id: wandb/learning_curve/v1
+            outlier_candidates:
+                historyFieldSettings:
+                    key: outlier_candidates
+                    x-axis: _step
+                id: wandb/outliers/v1
+            residuals:
+                historyFieldSettings:
+                    key: residuals
+                    x-axis: _step
+                id: wandb/residuals_plot/v1
+            summary_metrics:
+                historyFieldSettings:
+                    key: summary_metrics
+                    x-axis: _step
+                id: wandb/metrics/v1
+copy_X:
+    value: true
+fit_intercept:
+    value: true
+n_jobs:
+    value: null
+positive:
+    value: false
+test_len:
+    value: 7929
+test_size:
+    value: 0.2
+train_len:
+    value: 31715
