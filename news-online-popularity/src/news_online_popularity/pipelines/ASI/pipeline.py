@@ -89,7 +89,6 @@ def create_pipeline(**kwargs) -> Pipeline:
             outputs="tree_predictions",
             name="tree_predictions_node",
         ),
-        
         node(
             func=calculate_metrics,
             inputs=["decision_tree", "X_train", "y_train","y_test","tree_predictions"],
