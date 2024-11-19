@@ -1,1 +1,1 @@
-{"OnlineNewsPopularity": {"rows": 39644, "columns": 61, "file_size": 24351414}, "df": {"rows": 39644, "columns": 59}, "feature_importance": {"rows": 58, "columns": 3}, "correlation_matrix": {"rows": 59, "columns": 59}, "X": {"rows": 39644, "columns": 58}, "X_train": {"rows": 31715, "columns": 58}, "X_test": {"rows": 7929, "columns": 58}}
+{"news_data_prepared": {"rows": 39644, "columns": 59, "file_size": 18902925}, "train_set": {"rows": 30824, "columns": 59}, "test_set": {"rows": 8820, "columns": 59}}
