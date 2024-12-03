@@ -22,3 +22,10 @@ decision_tree:
     type: pickle.PickleDataset
     filepath: data/06_models/decision_tree.pickle
     versioned: true
+
+news_data_table:
+  type: pandas.SQLTableDataSet
+  credentials: my_mysql_creds
+  table_name: news_data
+  sqlalchemy_kwargs:
+    if_exists: replace
