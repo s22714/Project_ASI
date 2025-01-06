@@ -84,7 +84,7 @@ with st.form("add_item_form"):
 
     if submitted:
         #Update the value if category already in list
-        st.session_state["selected_options"][selected_option] = round(value, 2)
+        st.session_state["selected_options"][selected_option] =  value
         
 
 #Showing the list
