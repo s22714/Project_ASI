@@ -1,5 +1,14 @@
+import kedro.framework
+import kedro.framework.project
 import streamlit as st
 import requests
+import pandas as pd
+import pickle
+import os
+from kedro.framework.context import KedroContext
+from kedro.runner import SequentialRunner
+from kedro.io import DataCatalog
+import kedro
 
 category = [
     "n_tokens_title", 
@@ -61,7 +70,33 @@ category = [
     "abs_title_subjectivity"
 ]
 
+#if st.button("Run kedro"):
+    
+    #SequentialRunner().run(pipeline = 'ASI',catalog=KedroContext.catalog)
 
+file_to_predict = st.file_uploader("Upload file.", type=["csv"])
+if file_to_predict is not None:
+
+    df = pd.read_csv(file_to_predict, delimiter=';')
+
+    MODEL_PATH = r"news-online-popularity/data/06_models/decision_tree.pickle/2024-11-03T22.19.38.878Z/decision_tree.pickle"
+    
+    with open(MODEL_PATH, 'rb') as f:
+        model = pickle.load(f)
+
+    prediction = model.predict(df)
+
+    df['predictions'] = prediction
+    csv = df.to_csv(index=False).encode("utf-8")
+    
+    st.dataframe(df)
+
+    st.download_button(
+        label="Download data as CSV",
+        data=csv,
+        file_name="preds.csv",
+        mime="text/csv",
+    )
 
 if "selected_options" not in st.session_state:
     st.session_state["selected_options"] = {}
