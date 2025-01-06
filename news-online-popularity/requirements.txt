@@ -9,3 +9,4 @@ numpy
 kedro-viz
 matplotlib
 seaborn
+streamlit

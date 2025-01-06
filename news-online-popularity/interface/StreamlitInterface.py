@@ -84,7 +84,8 @@ with st.form("add_item_form"):
 
     if submitted:
         #Update the value if category already in list
-        st.session_state["selected_options"][selected_option] = value
+        st.session_state["selected_options"][selected_option] = round(value, 2)
+        
 
 #Showing the list
 st.header("Selected Options")
@@ -101,6 +102,7 @@ def get_features():
         if cat not in st.session_state["selected_options"]:
             st.session_state["selected_options"][cat] = 0.0
 
+         
     return st.session_state["selected_options"]
 
 
