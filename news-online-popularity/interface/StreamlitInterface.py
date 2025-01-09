@@ -1,14 +1,12 @@
-import kedro.framework
 import kedro.framework.project
 import streamlit as st
 import requests
 import pandas as pd
 import pickle
-import os
-from kedro.framework.context import KedroContext
-from kedro.runner import SequentialRunner
-from kedro.io import DataCatalog
+from kedro.framework.session import KedroSession
+from kedro.framework.startup import bootstrap_project
 import kedro
+from pathlib import Path
 
 category = [
     "n_tokens_title", 
@@ -69,10 +67,13 @@ category = [
     "title_sentiment_polarity", 
     "abs_title_subjectivity"
 ]
+project_path = Path.cwd() / "news-online-popularity"
 
-#if st.button("Run kedro"):
-    
-    #SequentialRunner().run(pipeline = 'ASI',catalog=KedroContext.catalog)
+st.title("News Popularity Prediction")
+
+if st.button("Run kedro"):
+    with KedroSession.create(project_path=project_path) as session:
+        session.run(pipeline_name="ASI")
 
 file_to_predict = st.file_uploader("Upload file.", type=["csv"])
 if file_to_predict is not None:
@@ -103,7 +104,7 @@ if "selected_options" not in st.session_state:
 
 
 
-st.title("News Popularity Prediction")
+
 
 #Picking category
 st.sidebar.title("Select an option")
