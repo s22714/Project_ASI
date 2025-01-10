@@ -8,149 +8,142 @@ from kedro.framework.startup import bootstrap_project
 import kedro
 from pathlib import Path
 
-category = [
-    "n_tokens_title", 
-    "n_tokens_content", 
-    "n_unique_tokens", 
-    "n_non_stop_words", 
-    "n_non_stop_unique_tokens", 
-    "num_hrefs", 
-    "num_self_hrefs", 
-    "num_imgs", 
-    "num_videos", 
-    "average_token_length", 
-    "num_keywords", 
-    "data_channel_is_lifestyle", 
-    "data_channel_is_entertainment", 
-    "data_channel_is_bus", 
-    "data_channel_is_socmed", 
-    "data_channel_is_tech", 
-    "data_channel_is_world", 
-    "kw_min_min", 
-    "kw_max_min", 
-    "kw_avg_min", 
-    "kw_min_max", 
-    "kw_max_max", 
-    "kw_avg_max", 
-    "kw_min_avg", 
-    "kw_max_avg", 
-    "kw_avg_avg", 
-    "self_reference_min_shares", 
-    "self_reference_max_shares", 
-    "self_reference_avg_sharess", 
-    "weekday_is_monday", 
-    "weekday_is_tuesday", 
-    "weekday_is_wednesday", 
-    "weekday_is_thursday", 
-    "weekday_is_friday", 
-    "weekday_is_saturday", 
-    "weekday_is_sunday", 
-    "is_weekend", 
-    "LDA_00", 
-    "LDA_01", 
-    "LDA_02", 
-    "LDA_03", 
-    "LDA_04", 
-    "global_subjectivity", 
-    "global_sentiment_polarity", 
-    "global_rate_positive_words", 
-    "global_rate_negative_words", 
-    "rate_positive_words", 
-    "rate_negative_words", 
-    "avg_positive_polarity", 
-    "min_positive_polarity", 
-    "max_positive_polarity", 
-    "avg_negative_polarity", 
-    "min_negative_polarity", 
-    "max_negative_polarity", 
-    "title_subjectivity", 
-    "title_sentiment_polarity", 
-    "abs_title_subjectivity"
-]
-project_path = Path.cwd() / "news-online-popularity"
-
-st.title("News Popularity Prediction")
-
-if st.button("Run kedro"):
-    with KedroSession.create(project_path=project_path) as session:
-        session.run(pipeline_name="ASI")
-
-file_to_predict = st.file_uploader("Upload file.", type=["csv"])
-if file_to_predict is not None:
-
-    df = pd.read_csv(file_to_predict, delimiter=';')
-
-    MODEL_PATH = r"news-online-popularity/data/06_models/decision_tree.pickle/2024-11-03T22.19.38.878Z/decision_tree.pickle"
-    
-    with open(MODEL_PATH, 'rb') as f:
-        model = pickle.load(f)
-
-    prediction = model.predict(df)
-
-    df['predictions'] = prediction
-    csv = df.to_csv(index=False).encode("utf-8")
-    
-    st.dataframe(df)
-
-    st.download_button(
-        label="Download data as CSV",
-        data=csv,
-        file_name="preds.csv",
-        mime="text/csv",
-    )
-
-if "selected_options" not in st.session_state:
-    st.session_state["selected_options"] = {}
-
-
-
-
-
-#Picking category
+#Picking option
 st.sidebar.title("Select an option")
 selected_option = st.sidebar.selectbox(
-    "Select a category", category
+    "Select a category", ["CSV", "Picking", "Data"]
 )
 
-#Picking number for picked category
-with st.form("add_item_form"):
-    st.write("Enter a new value for the selected category.")
-    value = st.number_input("Enter a value:", value=0.0, step=0.1)
-    submitted = st.form_submit_button("Update")
+if selected_option == "CSV":
+    project_path = Path.cwd() / "news-online-popularity"
 
-    if submitted:
-        #Update the value if category already in list
-        st.session_state["selected_options"][selected_option] =  value
+    st.title("News Popularity Prediction")
+
+    if st.button("Run kedro"):
+        with KedroSession.create(project_path=project_path) as session:
+            session.run(pipeline_name="ASI")
+
+    file_to_predict = st.file_uploader("Upload file.", type=["csv"])
+    if file_to_predict is not None:
+
+        df = pd.read_csv(file_to_predict, delimiter=';')
+
+        MODEL_PATH = r"news-online-popularity/data/06_models/decision_tree.pickle/2024-11-03T22.19.38.878Z/decision_tree.pickle"
         
+        with open(MODEL_PATH, 'rb') as f:
+            model = pickle.load(f)
 
-#Showing the list
-st.header("Selected Options")
-if st.session_state["selected_options"]:
-    for i, (category_name, category_value) in enumerate(st.session_state["selected_options"].items()):
-        st.write(f"{i + 1}. {category_name}: {category_value}")
-else:
-    st.write("No options selected.")
+        prediction = model.predict(df)
 
-#Adding missing categories so it won't freakout
-def get_features():
+        df['predictions'] = prediction
+        csv = df.to_csv(index=False).encode("utf-8")
+        
+        st.dataframe(df)
 
-    for cat in category:
-        if cat not in st.session_state["selected_options"]:
-            st.session_state["selected_options"][cat] = 0.0
+        st.download_button(
+            label="Download data as CSV",
+            data=csv,
+            file_name="preds.csv",
+            mime="text/csv",
+        )
+#Picking
+if selected_option == "Picking":
 
-         
-    return st.session_state["selected_options"]
+    st.title("Category Input Form")
+    st.write("Enter the values for each category below:")
 
 
+    #List of categories
+    categories = [
+        "n_tokens_title", 
+        "n_tokens_content", 
+        "n_unique_tokens", 
+        "n_non_stop_words", 
+        "n_non_stop_unique_tokens", 
+        "num_hrefs", 
+        "num_self_hrefs", 
+        "num_imgs", 
+        "num_videos", 
+        "average_token_length", 
+        "num_keywords", 
+        "data_channel_is_lifestyle", 
+        "data_channel_is_entertainment", 
+        "data_channel_is_bus", 
+        "data_channel_is_socmed", 
+        "data_channel_is_tech", 
+        "data_channel_is_world", 
+        "kw_min_min", 
+        "kw_max_min", 
+        "kw_avg_min", 
+        "kw_min_max", 
+        "kw_max_max", 
+        "kw_avg_max", 
+        "kw_min_avg", 
+        "kw_max_avg", 
+        "kw_avg_avg", 
+        "self_reference_min_shares", 
+        "self_reference_max_shares", 
+        "self_reference_avg_sharess", 
+        "weekday_is_monday", 
+        "weekday_is_tuesday", 
+        "weekday_is_wednesday", 
+        "weekday_is_thursday", 
+        "weekday_is_friday", 
+        "weekday_is_saturday", 
+        "weekday_is_sunday", 
+        "is_weekend", 
+        "LDA_00", 
+        "LDA_01", 
+        "LDA_02", 
+        "LDA_03", 
+        "LDA_04", 
+        "global_subjectivity", 
+        "global_sentiment_polarity", 
+        "global_rate_positive_words", 
+        "global_rate_negative_words", 
+        "rate_positive_words", 
+        "rate_negative_words", 
+        "avg_positive_polarity", 
+        "min_positive_polarity", 
+        "max_positive_polarity", 
+        "avg_negative_polarity", 
+        "min_negative_polarity", 
+        "max_negative_polarity", 
+        "title_subjectivity", 
+        "title_sentiment_polarity", 
+        "abs_title_subjectivity"
+    ]
 
-#Prediction button (not done properly yet)
-if st.button("Predict"):
-    features = get_features()
-    if features:
-        #sending to api
+   
+    input_values = {}
+
+    #Creating input fields for each category
+    cols = st.columns(3)
+    for index, category in enumerate(categories):
+        with cols[index % 3]:
+            input_values[category] = st.text_input(f"{category}")
+
+    #Submit button
+    if st.button("Submit"):
+        #Set empty fields as 0
+        features = {key: (float(value) if value else 0) for key, value in input_values.items()}
+
+        #Create a DataFrame from the input values
+        df = pd.DataFrame([features])
+        st.write("Entered Values")
+        st.dataframe(df)
+
+        #Sending to API
         url = "http://127.0.0.1:8000/predict"
         response = requests.post(url, json={"features": features})
         prediction = response.json().get("prediction")
         st.write(f"Prediction: {prediction}")
 
-   
+if selected_option == "Data":
+    st.title("Data")
+
+    df = pd.read_csv("")
+    df = df.head(150)  
+    
+    #Display DataFrame
+    st.dataframe(df)
