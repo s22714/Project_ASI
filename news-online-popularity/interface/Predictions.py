@@ -56,7 +56,7 @@ if selected_option == "Picking":
 
     st.title("Category Input Form")
     st.write("Enter the values for each category below:")
-
+    prediction = .0
 
     #List of categories
     categories = [
@@ -152,8 +152,7 @@ if selected_option == "Picking":
 
         engine = sqlalchemy.create_engine(connection_string)
         features = {key: (float(value) if value else 0) for key, value in input_values.items()}
-
+        features.update({'shares' : prediction})
         #Create a DataFrame from the input values
         df = pd.DataFrame([features])
-        print(df.head())
         df.to_sql(con=engine, name='newspop',if_exists="append",index=False)
