@@ -162,3 +162,6 @@ venv.bak/
 mlruns/*
 *.pickle
 ./news-online-popularity/bestModel/
+/wandb
+/news-online-popularity/bestModel
+predictions.csv
