@@ -1,8 +1,9 @@
 from sklearn.model_selection import train_test_split
+import pandas as pd
 
 
-def prepare_data(df):
-
+def prepare_data(sqlData):
+    df = pd.DataFrame(sqlData)
     _int_features = ['n_tokens_title', 'n_tokens_content', 'num_hrefs', 'num_self_hrefs', 'num_imgs', 'num_videos',
                      'num_keywords']
     for f in _int_features:

@@ -1,12 +1,21 @@
+import pandas as pd
+import streamlit as st
+import sqlalchemy
 import matplotlib.pyplot as plt
 import seaborn as sns
-import pandas as pd
-import numpy as np
 from sklearn.feature_selection import f_regression
+st.set_page_config(page_title="Database")
 
+connection_string = 'mysql://root:qwerty@localhost:3306/asi_project'
 
-def analyze_data(sqlData):
-    df = pd.DataFrame(sqlData)
+engine = sqlalchemy.create_engine(connection_string)
+
+query = "SELECT * FROM newspop"
+news_data = pd.read_sql(query, engine)
+
+st.dataframe(news_data)
+
+def analyze_data(df):
     # Find outliers
     Q1 = df.quantile(0.25)
     Q3 = df.quantile(0.75)
@@ -16,14 +25,6 @@ def analyze_data(sqlData):
 
     min_outliers = df[df < lower_bound].min()
     max_outliers = df[df > upper_bound].max()
-
-    upper_array = df[df > upper_bound]
-    print("Upper Bound:", max_outliers)
-    print(upper_array.sum())
-
-    lower_array = df[df < lower_bound]
-    print("Lower Bound:", min_outliers)
-    print(lower_array.sum())
 
     # Calculate feature importance (F-test)
     X = df.drop('shares', axis=1)
@@ -44,7 +45,7 @@ def analyze_data(sqlData):
 
 def plot_results(min_outliers, max_outliers, feature_importance, correlation_matrix):
     # Plot outliers
-    plt.figure(figsize=(12, 6))
+    fig = plt.figure(figsize=(12, 6))
     plt.subplot(1, 2, 1)
     sns.barplot(x=min_outliers.index, y=min_outliers.values)
     plt.xticks(rotation=90)
@@ -54,19 +55,23 @@ def plot_results(min_outliers, max_outliers, feature_importance, correlation_mat
     plt.xticks(rotation=90)
     plt.title('Maksymalne wartości odstające')
     plt.tight_layout()
-    plt.show()
+    st.pyplot(fig)
+
+    
 
     # Plot feature importance
-    plt.figure(figsize=(10, 8))
+    fig = plt.figure(figsize=(10, 8))
     sns.barplot(x='F-value', y='Feature', data=feature_importance.head(20), palette='viridis')
     plt.title('Top 20 cech według istotności (F-value)')
     plt.xlabel('F-value')
     plt.ylabel('Feature')
-    plt.show()
+    st.pyplot(fig)
 
     # Plot correlation matrix
-    plt.figure(figsize=(14, 12))
+    fig = plt.figure(figsize=(14, 12))
     sns.heatmap(correlation_matrix, cmap='coolwarm', annot=False, linewidths=0.5)
     plt.title('Macierz korelacji')
-    plt.show()
+    st.pyplot(fig)
 
+min_outliers, max_outliers, feature_importance, correlation_matrix = analyze_data(news_data)
+plot_results(min_outliers, max_outliers, feature_importance, correlation_matrix)

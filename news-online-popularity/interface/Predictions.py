@@ -7,21 +7,26 @@ from kedro.framework.session import KedroSession
 from kedro.framework.startup import bootstrap_project
 import kedro
 from pathlib import Path
+import sqlalchemy
+import os
 
 #Picking option
 st.sidebar.title("Select an option")
 selected_option = st.sidebar.selectbox(
-    "Select a category", ["CSV", "Picking", "Data"]
+    "Select a category", ["CSV", "Picking"]
 )
 
-if selected_option == "CSV":
-    project_path = Path.cwd() / "news-online-popularity"
-
-    st.title("News Popularity Prediction")
-
-    if st.button("Run kedro"):
+if st.button("Run kedro"):
+        project_path = Path.cwd() / "news-online-popularity"
+        bootstrap_project(project_path)
         with KedroSession.create(project_path=project_path) as session:
             session.run(pipeline_name="ASI")
+        st.success("Run finished")
+        
+if selected_option == "CSV":
+    st.title("News Popularity Prediction")
+
+    
 
     file_to_predict = st.file_uploader("Upload file.", type=["csv"])
     if file_to_predict is not None:
@@ -136,14 +141,17 @@ if selected_option == "Picking":
         #Sending to API
         url = "http://127.0.0.1:8000/predict"
         response = requests.post(url, json={"features": features})
+        response.raise_for_status()
         prediction = response.json().get("prediction")
         st.write(f"Prediction: {prediction}")
 
-if selected_option == "Data":
-    st.title("Data")
+    if st.button("Add to database"):
+        connection_string = 'mysql://root:qwerty@localhost:3306/asi_project'
 
-    df = pd.read_csv("")
-    df = df.head(150)  
-    
-    #Display DataFrame
-    st.dataframe(df)
+        engine = sqlalchemy.create_engine(connection_string)
+        features = {key: (float(value) if value else 0) for key, value in input_values.items()}
+
+        #Create a DataFrame from the input values
+        df = pd.DataFrame([features])
+        print(df.head())
+        df.to_sql(con=engine, name='newspop',if_exists="append",index=False)

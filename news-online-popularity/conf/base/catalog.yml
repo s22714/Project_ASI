@@ -24,8 +24,8 @@ decision_tree:
     versioned: true
 
 news_data_table:
-  type: pandas.SQLTableDataSet
-  credentials: my_mysql_creds
-  table_name: news_data
-  sqlalchemy_kwargs:
-    if_exists: replace
+    type: pandas.SQLTableDataset
+    credentials: my_mysql_creds
+    table_name: newspop
+#    sqlalchemy_kwargs:
+#        if_exists: replace

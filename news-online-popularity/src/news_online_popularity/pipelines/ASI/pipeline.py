@@ -25,7 +25,7 @@ def create_pipeline(**kwargs) -> Pipeline:
         ),
         node(
             func=prepare_data,
-            inputs="df",
+            inputs="news_data_table",
             outputs=["X","y"],
             name="data_praparation_node",
         ),
@@ -107,9 +107,9 @@ def create_pipeline(**kwargs) -> Pipeline:
             outputs=None,
             name="end_tree_wandb_logging_node",
         ),
-        node(
+'''        node(
             func=analyze_data,
-            inputs="df",
+            inputs="news_data_table",
             outputs=["min_outliers", "max_outliers", "feature_importance", "correlation_matrix"],
             name="data_analysis_node",
         ),
@@ -118,5 +118,5 @@ def create_pipeline(**kwargs) -> Pipeline:
             inputs=["min_outliers", "max_outliers", "feature_importance", "correlation_matrix"],
             outputs=None,
             name="plot_node",
-        ),
+        ),'''
     ])

@@ -5,12 +5,7 @@ from pydantic import BaseModel, Field
 import uvicorn
 
 
-
-
 MODEL_PATH = r"../data/06_models/decision_tree.pickle/2024-11-03T22.19.38.878Z/decision_tree.pickle"
-
-
-
 
 app = FastAPI(title="Single Model Predictor")
 
@@ -22,11 +17,8 @@ async def predict(input_data: PredictionInput):
     try:
         with open(MODEL_PATH, 'rb') as f:
             model = pickle.load(f)
-
         df = pd.DataFrame([input_data.features])
-
         prediction = model.predict(df)[0]
-
         return {"prediction": str(prediction)}
 
     except FileNotFoundError:
