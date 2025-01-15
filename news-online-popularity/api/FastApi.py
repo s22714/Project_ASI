@@ -4,8 +4,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 import uvicorn
 
-
-MODEL_PATH = r"../data/06_models/decision_tree.pickle/2024-11-03T22.19.38.878Z/decision_tree.pickle"
+MODEL_PATH = r"news-online-popularity/data/06_models/decision_tree.pickle/2024-11-03T22.19.38.878Z/decision_tree.pickle"
 
 app = FastAPI(title="Single Model Predictor")
 
@@ -19,11 +18,13 @@ async def predict(input_data: PredictionInput):
             model = pickle.load(f)
         df = pd.DataFrame([input_data.features])
         prediction = model.predict(df)[0]
+        print(prediction)
         return {"prediction": str(prediction)}
 
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail="Model file not found")
     except Exception as e:
+        print(f"Prediction error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
 
 @app.get("/")

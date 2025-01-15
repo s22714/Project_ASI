@@ -116,7 +116,9 @@ if selected_option == "Picking":
         "max_negative_polarity", 
         "title_subjectivity", 
         "title_sentiment_polarity", 
-        "abs_title_subjectivity"
+        "abs_title_subjectivity",
+        "abs_title_sentiment_polarity"
+        
     ]
 
    
