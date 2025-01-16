@@ -10,7 +10,6 @@ from sklearn.metrics import (
     explained_variance_score
 )
 
-
 def calculate_metrics(model, X_train, y_train, y_test, predictions):
     mse = np.sqrt(mean_squared_error(y_test, predictions))
     r2 = r2_score(y_test, predictions)
@@ -18,8 +17,6 @@ def calculate_metrics(model, X_train, y_train, y_test, predictions):
     rmse = root_mean_squared_error(y_test, predictions)
     medae = median_absolute_error(y_test, predictions)
     evs = explained_variance_score(y_test, predictions)
-
-    
 
     scores = cross_val_score(model, X_train, y_train, scoring='r2', cv=5)
     print(scores)

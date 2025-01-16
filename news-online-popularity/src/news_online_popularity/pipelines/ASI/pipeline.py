@@ -36,12 +36,6 @@ def create_pipeline(**kwargs) -> Pipeline:
             name="linear_model_node",
         ),
         node(
-            func=wandb_logging,
-            inputs=["news_data_table", "X", "y", "X_train", "X_test", "y_train", "y_test", "linear_regression", "params:linear_regression_name"],
-            outputs=None,
-            name="linear_wandb_start_node",
-        ),
-        node(
             func=get_predictions,
             inputs=["linear_regression","X_test"],
             outputs="linear_predictions",
@@ -60,22 +54,10 @@ def create_pipeline(**kwargs) -> Pipeline:
             name="linear_metrics_print_node",
         ),
         node(
-            func=end_wandb_logging,
-            inputs=["news_data_table"],
-            outputs=None,
-            name="end_linear_wandb_logging_node",
-        ),
-        node(
             func=train_decision_tree,
             inputs=["X_train","y_train"],
             outputs="decision_tree",
             name="tree_model_node",
-        ),
-        node(
-            func=wandb_logging,
-            inputs=["news_data_table", "X", "y", "X_train", "X_test", "y_train", "y_test", "decision_tree", "params:decision_tree_name"],
-            outputs=None,
-            name="tree_wandb_start_node",
         ),
         node(
             func=get_predictions,
@@ -94,11 +76,5 @@ def create_pipeline(**kwargs) -> Pipeline:
             inputs=["tree_metrics","params:decision_tree_name"],
             outputs=None,
             name="tree_metrics_print_node",
-        ),
-        node(
-            func=end_wandb_logging,
-            inputs=["news_data_table"],
-            outputs=None,
-            name="end_tree_wandb_logging_node",
         ),
     ])

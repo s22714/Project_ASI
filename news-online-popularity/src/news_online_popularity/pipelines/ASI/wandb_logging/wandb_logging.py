@@ -4,9 +4,10 @@ import pandas as pd
 
 def wandb_logging(sqlData, X, y, X_train, X_test, y_train, y_test, model, project_name):
     df = pd.DataFrame(sqlData)
+    df.columns = [str(col) for col in df.columns]
     # create wandb session
     wandb.init(project=project_name, config=model.get_params())
-
+    
     wandb.config.update({"test_size": 0.2,
                          "train_len": len(X_train),
                          "test_len": len(X_test)})
