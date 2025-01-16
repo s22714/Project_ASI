@@ -11,3 +11,4 @@ matplotlib
 seaborn
 streamlit
 pyyaml
+fastapi[standard]

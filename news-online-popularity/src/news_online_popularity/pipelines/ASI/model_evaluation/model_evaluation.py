@@ -19,6 +19,8 @@ def calculate_metrics(model, X_train, y_train, y_test, predictions):
     medae = median_absolute_error(y_test, predictions)
     evs = explained_variance_score(y_test, predictions)
 
+    
+
     scores = cross_val_score(model, X_train, y_train, scoring='r2', cv=5)
     print(scores)
     

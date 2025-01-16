@@ -31,6 +31,8 @@ async def predict(input_data: PredictionInput):
         print(f"Prediction error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
 
+@app.get("/getmodel")
+
 @app.get("/")
 def read_root():
     return {"message": "Model Prediction API"}
