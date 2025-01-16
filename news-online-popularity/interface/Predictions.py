@@ -1,14 +1,10 @@
-import kedro.framework.project
 import streamlit as st
 import requests
 import pandas as pd
 import pickle
-from kedro.framework.session import KedroSession
-from kedro.framework.startup import bootstrap_project
 import kedro
-from pathlib import Path
 import sqlalchemy
-import os
+import yaml
 
 #Picking option
 st.sidebar.title("Select an option")
@@ -16,24 +12,20 @@ selected_option = st.sidebar.selectbox(
     "Select a category", ["CSV", "Picking"]
 )
 
-if st.button("Run kedro"):
-        project_path = Path.cwd() / "news-online-popularity"
-        bootstrap_project(project_path)
-        with KedroSession.create(project_path=project_path) as session:
-            session.run(pipeline_name="ASI")
-        st.success("Run finished")
+
         
 if selected_option == "CSV":
     st.title("News Popularity Prediction")
-
-    
 
     file_to_predict = st.file_uploader("Upload file.", type=["csv"])
     if file_to_predict is not None:
 
         df = pd.read_csv(file_to_predict, delimiter=';')
 
-        MODEL_PATH = r"news-online-popularity/data/06_models/decision_tree.pickle/2024-11-03T22.19.38.878Z/decision_tree.pickle"
+        with open('news-online-popularity\\conf\\base\\parameters.yml', 'r') as file:
+            param_service = yaml.safe_load(file)
+            MODEL_PATH = rf"news-online-popularity/data/06_models/{param_service['model_name']}/{param_service['model_version']}/{param_service['model_name']}"
+            #MODEL_PATH = r"news-online-popularity/data/06_models/decision_tree.pickle/2024-11-03T22.19.38.878Z/decision_tree.pickle"
         
         with open(MODEL_PATH, 'rb') as f:
             model = pickle.load(f)
@@ -148,7 +140,10 @@ if selected_option == "Picking":
         st.write(f"Prediction: {prediction}")
 
     if st.button("Add to database"):
-        connection_string = 'mysql://root:qwerty@localhost:3306/asi_project'
+        with open('news-online-popularity\\conf\\local\\credentials.yml', 'r') as file:
+            prime_service = yaml.safe_load(file)
+
+        connection_string = prime_service['my_mysql_creds']['con']
 
         engine = sqlalchemy.create_engine(connection_string)
         features = {key: (float(value) if value else 0) for key, value in input_values.items()}

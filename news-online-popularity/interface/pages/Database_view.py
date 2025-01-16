@@ -4,9 +4,14 @@ import sqlalchemy
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.feature_selection import f_regression
+import yaml
+
 st.set_page_config(page_title="Database")
 
-connection_string = 'mysql://root:qwerty@localhost:3306/asi_project'
+with open('news-online-popularity\\conf\\local\\credentials.yml', 'r') as file:
+    prime_service = yaml.safe_load(file)
+
+connection_string = prime_service['my_mysql_creds']['con']
 
 engine = sqlalchemy.create_engine(connection_string)
 

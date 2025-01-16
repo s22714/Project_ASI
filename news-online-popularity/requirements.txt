@@ -10,3 +10,4 @@ kedro-viz
 matplotlib
 seaborn
 streamlit
+pyyaml
