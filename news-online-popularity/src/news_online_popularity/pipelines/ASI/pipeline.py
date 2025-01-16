@@ -18,12 +18,6 @@ from news_online_popularity.pipelines.ASI.wandb_logging import wandb_logging, en
 def create_pipeline(**kwargs) -> Pipeline:
     return pipeline([
         node(
-            func=load_data,
-            inputs="OnlineNewsPopularity",
-            outputs="df",
-            name="data_extraction_node",
-        ),
-        node(
             func=prepare_data,
             inputs="news_data_table",
             outputs=["X","y"],
@@ -43,7 +37,7 @@ def create_pipeline(**kwargs) -> Pipeline:
         ),
         node(
             func=wandb_logging,
-            inputs=["df", "X", "y", "X_train", "X_test", "y_train", "y_test", "linear_regression", "params:linear_regression_name"],
+            inputs=["news_data_table", "X", "y", "X_train", "X_test", "y_train", "y_test", "linear_regression", "params:linear_regression_name"],
             outputs=None,
             name="linear_wandb_start_node",
         ),
@@ -67,7 +61,7 @@ def create_pipeline(**kwargs) -> Pipeline:
         ),
         node(
             func=end_wandb_logging,
-            inputs=["df"],
+            inputs=["news_data_table"],
             outputs=None,
             name="end_linear_wandb_logging_node",
         ),
@@ -79,7 +73,7 @@ def create_pipeline(**kwargs) -> Pipeline:
         ),
         node(
             func=wandb_logging,
-            inputs=["df", "X", "y", "X_train", "X_test", "y_train", "y_test", "decision_tree", "params:decision_tree_name"],
+            inputs=["news_data_table", "X", "y", "X_train", "X_test", "y_train", "y_test", "decision_tree", "params:decision_tree_name"],
             outputs=None,
             name="tree_wandb_start_node",
         ),
@@ -103,7 +97,7 @@ def create_pipeline(**kwargs) -> Pipeline:
         ),
         node(
             func=end_wandb_logging,
-            inputs=["df"],
+            inputs=["news_data_table"],
             outputs=None,
             name="end_tree_wandb_logging_node",
         ),
