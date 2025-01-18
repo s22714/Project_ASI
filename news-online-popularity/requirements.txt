@@ -13,3 +13,4 @@ streamlit
 pyyaml
 fastapi[standard]
 sqlalchemy
+cloud-sql-python-connector[pymysql]

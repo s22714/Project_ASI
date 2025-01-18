@@ -34,7 +34,6 @@ mindex = filenames[1].index(param_service['model_name'])
 model_name = st.radio(f"Model name ( currently {param_service['model_name']} )",filenames[1],index=mindex)
 
 
-
 if model_name:
     version_names = next(os.walk(f'news-online-popularity\\data\\06_models\\{model_name}'))
     vindex = version_names[1].index(param_service['model_version'])
@@ -50,6 +49,10 @@ newsize = st.number_input(label='Model test frame size',min_value=.0,value=test_
 newrand = st.number_input(label='Random state',min_value=1,value=rand_state)
 
 newconnstr = st.text_input(label='Connection string',value=connection_string)
+
+
+newwandbprojectname = st.text_input(label='W and B project name')
+
 
 if st.button('Save'):
     with open('news-online-popularity\\conf\\base\\parameters.yml', 'w') as file:

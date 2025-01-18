@@ -1,12 +1,23 @@
 name: news-popularity
 channels:
-  - defaults
-  - conda-forge
+    - defaults
+    - conda-forge
 dependencies:
-  - python=3.9
-  - matplotlib
-  - seaborn
-  - pandas
-  - scikit-learn
-  - numpy
-  - pip
+    - pip
+    - python=3.9
+    - ipython>=8.10
+    - jupyterlab>=3.0
+    - kedro~=0.19.9
+    - notebook
+    - scikit-learn
+    - wandb
+    - pandas
+    - numpy
+    - kedro-viz
+    - matplotlib
+    - seaborn
+    - streamlit
+    - pyyaml
+    - fastapi[standard]
+    - sqlalchemy
+    - cloud-sql-python-connector[pymysql]
