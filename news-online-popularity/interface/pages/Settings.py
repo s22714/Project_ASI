@@ -13,14 +13,7 @@ import kedro.framework.project
 
 st.set_page_config(page_title="Settings")
 
-if st.button("Run kedro"):
-    with st.spinner("Running pipeline"):
-        project_path = Path.cwd() / "news-online-popularity"
-        bootstrap_project(project_path)
-        with KedroSession.create(project_path=project_path) as session:
-            session.run(pipeline_name="ASI")
-    st.success("Run finished")
-    st.rerun()
+
 
 with open('news-online-popularity\\conf\\base\\parameters.yml', 'r') as file:
     param_service = yaml.safe_load(file)
@@ -63,7 +56,15 @@ else:
     gclouddb_loginnew = st.text_input(label='gcloud login', value=conn_str_service['gclouddb_login'])
     gclouddb_passwordnew = st.text_input(label='gcloud password', type="password", value=conn_str_service['gcloud_password'])
     gcloud_dbnamenew = st.text_input(label='gcloud database', value=conn_str_service['gcloud_dbname'])
-
+    
+if st.button("Run kedro"):
+    with st.spinner("Running pipeline"):
+        project_path = Path.cwd() / "news-online-popularity"
+        bootstrap_project(project_path)
+        with KedroSession.create(project_path=project_path) as session:
+            session.run(pipeline_name="ASI")
+    st.success("Run finished")
+    st.rerun()
 
 if st.button('Save'):
     with open('news-online-popularity\\conf\\base\\parameters.yml', 'w') as file:

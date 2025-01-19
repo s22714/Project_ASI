@@ -18,7 +18,45 @@ engine = sqlalchemy.create_engine(connection_string)
 query = "SELECT * FROM newspop"
 news_data = pd.read_sql(query, engine)
 
-st.dataframe(news_data)
+
+
+edited_data = st.data_editor(news_data)
+col1, col2, col3, col4 = st.columns(4)
+with col1:
+    if st.button('Save data'):
+        edited_data.to_sql(con=engine, name='newspop',if_exists="replace",index=False)
+        st.rerun()
+with col2:
+    if st.button('Remove rows with empty values'):
+        edited_data = edited_data.dropna()
+        edited_data.to_sql(con=engine, name='newspop',if_exists="replace",index=False)
+        st.rerun()
+with col3:
+    if st.button('Put 0 into empty fields'):
+        edited_data = edited_data.fillna(0)
+        edited_data.to_sql(con=engine, name='newspop',if_exists="replace",index=False)
+        st.rerun()
+with col4:
+    if st.button('Remove duplicates'):
+        edited_data = edited_data.drop_duplicates()
+        edited_data.to_sql(con=engine, name='newspop',if_exists="replace",index=False)
+        st.rerun()
+
+st.text(f'Number of rows {len(news_data.index)}')
+st.text(f'Number of Null cells {news_data.isnull().sum().sum()}')
+
+new_data = st.file_uploader("Upload file.", type=["csv"])
+
+if new_data is not None:
+    if st.button('Upload data'):
+        newdf = pd.read_csv(new_data)
+        newdf.columns = newdf.columns.str.strip()
+        newdf = newdf.drop(columns=['url', 'timedelta'], errors='ignore')
+        newdf = newdf.dropna()
+        newdf.to_sql(con=engine, name='newspop',if_exists="append",index=False)
+        st.rerun()
+
+
 
 def analyze_data(df):
     # Find outliers

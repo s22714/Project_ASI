@@ -4,21 +4,34 @@ from typing import Any
 import wandb
 from wandb.sklearn import plot_precision_recall, plot_feature_importances, plot_learning_curve
 import pandas as pd
+import yaml
 
 class WandBCallHook:
 
     @hook_impl
     def after_node_run(self, node: Node, inputs: dict[str, Any], outputs: dict[str, Any]):
-        if node.name == "data_praparation_node":
-            wandb.init(project="ASI project")
-            print("########################################################### logging started ########################################")
 
         if node.name == "data_praparation_node":
+
+            with open('news-online-popularity\\conf\\local\\credentials.yml', 'r') as file:
+                conn_str_service = yaml.safe_load(file)
+
+            wandb.login(key=conn_str_service['wandbapikey'])
+            wandb.init(project=conn_str_service['wandbprojectname'])
+
+            print("########################################################### wandb logging started ########################################")
+
+        if node.name == "data_praparation_node":
+
             print(outputs["X"])
             print(outputs["y"])
+
             print("################################################################## X y ########################################")
 
         if node.name == "tree_metrics_print_node":
+
             wandb.finish()
-            print("########################################################### logging finished ########################################")
+
+            print("########################################################### wandb logging finished ########################################")
+            
         
