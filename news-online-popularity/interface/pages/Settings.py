@@ -48,10 +48,21 @@ connection_string = conn_str_service['my_mysql_creds']['con']
 newsize = st.number_input(label='Model test frame size',min_value=.0,value=test_size,max_value=0.9)
 newrand = st.number_input(label='Random state',min_value=1,value=rand_state)
 
+newwandbprojectname = st.text_input(label='W and B project name')
+newwandbapikey = st.text_input(label='W and B api key')
+
+
+
+dboptions=['google cloud','local']
+
+dbchoice = st.radio(label='Database type',options=dboptions, index=dboptions.index(param_service['db_type']))
+
 newconnstr = st.text_input(label='Connection string',value=connection_string)
 
-
-newwandbprojectname = st.text_input(label='W and B project name')
+gcloud_projectnew = st.text_input(label='gcloud project')
+gclouddb_loginnew = st.text_input(label='gcloud login')
+gclouddb_passwordnew = st.text_input(label='gcloud password', type="password")
+gcloud_dbnamenew = st.text_input(label='gcloud database')
 
 
 if st.button('Save'):
