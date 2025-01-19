@@ -48,21 +48,21 @@ connection_string = conn_str_service['my_mysql_creds']['con']
 newsize = st.number_input(label='Model test frame size',min_value=.0,value=test_size,max_value=0.9)
 newrand = st.number_input(label='Random state',min_value=1,value=rand_state)
 
-newwandbprojectname = st.text_input(label='W and B project name')
-newwandbapikey = st.text_input(label='W and B api key')
+newwandbprojectname = st.text_input(label='W and B project name', value=conn_str_service['wandbprojectname'])
+newwandbapikey = st.text_input(label='W and B api key', type="password", value=conn_str_service['wandbapikey'])
 
 
 
 dboptions=['google cloud','local']
 
 dbchoice = st.radio(label='Database type',options=dboptions, index=dboptions.index(param_service['db_type']))
-
-newconnstr = st.text_input(label='Connection string',value=connection_string)
-
-gcloud_projectnew = st.text_input(label='gcloud project')
-gclouddb_loginnew = st.text_input(label='gcloud login')
-gclouddb_passwordnew = st.text_input(label='gcloud password', type="password")
-gcloud_dbnamenew = st.text_input(label='gcloud database')
+if dbchoice == "local":
+    newconnstr = st.text_input(label='Connection string',value=connection_string)
+else:
+    gcloud_projectnew = st.text_input(label='gcloud project', value=conn_str_service['gclouddb_project'])
+    gclouddb_loginnew = st.text_input(label='gcloud login', value=conn_str_service['gclouddb_login'])
+    gclouddb_passwordnew = st.text_input(label='gcloud password', type="password", value=conn_str_service['gcloud_password'])
+    gcloud_dbnamenew = st.text_input(label='gcloud database', value=conn_str_service['gcloud_dbname'])
 
 
 if st.button('Save'):
@@ -74,7 +74,15 @@ if st.button('Save'):
         yaml.safe_dump(param_service,file)
 
     with open('news-online-popularity\\conf\\local\\credentials.yml', 'w') as file:
-        conn_str_service['my_mysql_creds']['con'] =  newconnstr
+        if dbchoice == "local":
+            conn_str_service['my_mysql_creds']['con'] =  newconnstr
+        else:
+            conn_str_service['gclouddb_project'] = gcloud_projectnew
+            conn_str_service['gclouddb_login'] = gclouddb_loginnew
+            conn_str_service['gcloud_dbname'] = gcloud_dbnamenew
+            conn_str_service['gcloud_password'] = gclouddb_passwordnew
+        conn_str_service['wandbprojectname'] = newwandbprojectname
+        conn_str_service['wandbapikey'] = newwandbapikey
         yaml.safe_dump(conn_str_service,file)
 
     st.rerun()
