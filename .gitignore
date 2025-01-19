@@ -165,3 +165,4 @@ mlruns/*
 /wandb
 /news-online-popularity/bestModel
 predictions.csv
+news-online-popularity/conf/local/credentials.yml
