@@ -71,6 +71,7 @@ if st.button('Save'):
         param_service['random_state'] = newrand
         param_service['model_name'] = model_name
         param_service['model_version'] = version_name
+        param_service['db_type'] = dbchoice
         yaml.safe_dump(param_service,file)
 
     with open('news-online-popularity\\conf\\local\\credentials.yml', 'w') as file:

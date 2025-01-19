@@ -1,7 +1,7 @@
+db_type: local
 decision_tree_name: deciossion tree
 linear_regression_name: linear regression
 model_name: decision_tree.pickle
 model_version: 2025-01-15T20.44.38.936Z
 random_state: 48
 test_size: 0.2
-db_type: local
