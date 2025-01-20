@@ -21,3 +21,4 @@ dependencies:
     - fastapi[standard]
     - sqlalchemy
     - cloud-sql-python-connector[pymysql]
+    - kedro-datasets[pandas-csvdataset]
