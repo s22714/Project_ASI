@@ -98,7 +98,7 @@ if not newconnstr.endswith("asi_project"):
         engine = sqlalchemy.create_engine(newconnstr)
         try:
             with engine.connect() as conn:
-                conn.execute("CREATE DATABASE asi_project")
+                conn.execute(sqlalchemy.text("CREATE DATABASE asi_project"))
         except Exception as e:
             st.error('Could not connect')
         newconnstr = f"{newconnstr}/asiproject"
