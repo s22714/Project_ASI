@@ -31,7 +31,7 @@ def create_pipeline(**kwargs) -> Pipeline:
         ),
         node(
             func=train_linear_regression,
-            inputs=["X_train","y_train"],
+            inputs=["X_train","y_train", "y_test", "X_test","X","y"],
             outputs="linear_regression",
             name="linear_model_node",
         ),
@@ -55,7 +55,7 @@ def create_pipeline(**kwargs) -> Pipeline:
         ),
         node(
             func=train_decision_tree,
-            inputs=["X_train","y_train"],
+            inputs=["X_train","y_train", "y_test", "X_test","X","y"],
             outputs="decision_tree",
             name="tree_model_node",
         ),

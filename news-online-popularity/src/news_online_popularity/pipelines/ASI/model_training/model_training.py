@@ -3,14 +3,14 @@ from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 
 
-def train_linear_regression(X_train, y_train):
+def train_linear_regression(X_train, y_train, y_test, X_test,X,y):
     
     model = LinearRegression()
     model.fit(X_train, y_train)
     return model
 
 
-def train_decision_tree(X_train, y_train):
+def train_decision_tree(X_train, y_train, y_test, X_test,X,y):
     model = DecisionTreeRegressor()
     model.fit(X_train, y_train)
     return model
