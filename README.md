@@ -48,8 +48,8 @@ streamlit run news-online-popularity\interface\Predictions.py
 fastapi dev .\news-online-popularity\api\FastApi.py
 ```
 4. Wewnątrz okna przeglądarki otwórz "Settings"
-5. Wypełnij pola: "W and B project name", "W and B api key" i "Connection string" (baza danych MySql)
-6. 
+6. Wypełnij pola: "W and B project name", "W and B api key" i "Connection string"
+7. Naciśnij "Create database"
 
 # Integracja Bazy Danych
 
