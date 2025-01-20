@@ -93,7 +93,7 @@ if st.button('Save'):
     st.rerun()
 
 if not newconnstr.endswith("asi_project"):
-    if st.Button('Create database'):
+    if st.button('Create database'):
         
         engine = sqlalchemy.create_engine(newconnstr)
         try:
