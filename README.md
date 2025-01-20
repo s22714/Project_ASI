@@ -156,7 +156,7 @@ class WandBCallHook:
 
 # Wizualizacja Struktury Projektu
 Struktura projektu
-
+![Alt text](/screenshots/Structure.png "Potok Kedro")
 
 Potok Kedro
 ![Alt text](/screenshots/kedro-pipeline.png "Potok Kedro")
