@@ -102,6 +102,8 @@ if not newconnstr.endswith("asi_project"):
         except Exception as e:
             st.error('Could not connect')
         newconnstr = f"{newconnstr}/asiproject"
+        with open('news-online-popularity\\conf\\local\\credentials.yml', 'r') as file:
+            conn_str_service = yaml.safe_load(file)
         conn_str_service['my_mysql_creds']['con'] =  newconnstr
         yaml.safe_dump(conn_str_service,file)
         st.success("database created")
