@@ -24,6 +24,8 @@ with open('news-online-popularity\\conf\\local\\credentials.yml', 'r') as file:
 
 filenames = next(os.walk('news-online-popularity\\data\\06_models\\'))
 mindex = filenames[1].index(param_service['model_name'])
+if mindex is None:
+    mindex = 0
 model_name = st.radio(f"Model name ( currently {param_service['model_name']} )",filenames[1],index=mindex)
 
 
