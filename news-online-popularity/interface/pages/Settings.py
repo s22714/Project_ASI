@@ -98,7 +98,7 @@ if not newconnstr.endswith("asi_project"):
         engine = sqlalchemy.create_engine(newconnstr)
         try:
             with engine.connect() as conn:
-                conn.execute(f"CREATE DATABASE asi_project")
+                conn.execute("CREATE DATABASE asi_project")
                 newconnstr = f"{newconnstr}/asiproject"
                 conn_str_service['my_mysql_creds']['con'] =  newconnstr
                 yaml.safe_dump(conn_str_service,file)
