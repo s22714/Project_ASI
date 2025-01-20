@@ -27,6 +27,29 @@ Wykonane elementy:
 
 # Instalacja
 
+1. stworzenie i uruchominie virtualnego środowiska
+uruchom polecenie w katalogu głównym projektu
+```
+python -m venv .venv
+pip install -r requirements.txt
+.\.venv\Scripts\activate
+```
+jeśli Conda
+```
+conda env create --file news-online-popularity\src\news_online_popularity\environment.yaml
+conda activate news-popularity
+```
+2. uruchom streamlit
+```
+streamlit run news-online-popularity\interface\Predictions.py
+```
+3. w oddzielnym terminalu uruchom fastapi
+```
+fastapi dev .\news-online-popularity\api\FastApi.py
+```
+4. Wewnątrz okna przeglądarki otwórz "Settings"
+5. Wypełnij pola: "W and B project name", "W and B api key" i "Connection string" (baza danych MySql)
+6. 
 
 # Integracja Bazy Danych
 
