@@ -23,7 +23,7 @@ with open('news-online-popularity/conf/local/credentials.yml', 'r') as file:
 
 
 filenames = next(os.walk('news-online-popularity/data/06_models/'))
-if len(filenames) > 0:
+if len(filenames[1]) > 0:
     mindex = filenames[1].index(param_service['model_name'])
 else:
     mindex = 0
@@ -33,6 +33,7 @@ model_name = st.radio(f"Model name ( currently {param_service['model_name']} )",
 
 if model_name:
     version_names = next(os.walk(f'news-online-popularity/data/06_models/{model_name}'))
+    version_names[1].sort()
     vindex = version_names[1].index(param_service['model_version'])
     version_name = st.radio(f"Model version ( currently {param_service['model_version']} )",version_names[1],index=vindex)
 
