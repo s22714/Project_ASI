@@ -53,7 +53,6 @@ Aplikacja składa się z trzech widoków. W pierwszym  możliwa jest predykcja d
 Widok kolejny to “Database view” pozwalający na eksplorację oraz modyfikację danych w bazie.
 Ostatnim widokiem jest widok “Settings” w którym użytkownik może manipulować parametrami modeli, dodawać dane wymagane przez bazę danych i “WadnB” oraz uruchamiać potok Kedro.
 
-
 # Kedro
 
 Kedro jest narzędziem ułatwiającym tworzenie modeli uczenia maszynowego. Na użytek w tej aplikacji stworzony został pipeline “ASI”. Pipeline ten pozwala na wytrenowanie dwóch modeli uczenia maszynowego: “Drzewa decyzji” i “regresji liniowej. Start potoku następuje po wciśnięciu przez urzytkownika przycisku “Run kedro” w widoku “Settings”. Po jego zakończeniu na górze widoku pojawią się nowo wytrenowane modele.
