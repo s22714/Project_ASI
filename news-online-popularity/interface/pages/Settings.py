@@ -102,6 +102,7 @@ if not newconnstr.endswith("asi_project"):
                 newconnstr = f"{newconnstr}/asiproject"
                 conn_str_service['my_mysql_creds']['con'] =  newconnstr
                 yaml.safe_dump(conn_str_service,file)
+                st.success("database created")
         except Exception as e:
             st.error('Could not connect')
         st.rerun()
