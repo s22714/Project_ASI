@@ -4,11 +4,26 @@ W dzisiejszym świecie popularność artykułów online ma kluczowe znaczenie dl
 
 # Założenia i Cele Projektu
 
-
+Celem projektu jest stworzenie aplikacji przewidującej liczbę udostępnień artykułu w internecie, wykorzystującej algorytmy uczenia maszynowego.
+Założenia projektu:
+ - Wykorzystanie zbioru danych Online News Popularity z repozytorium UCI.
+ - Implementacja i porównanie modeli regresyjnych takich jak regresja liniowa, drzewo decyzyjne, las losowy oraz gradient boosting.
+ - Wykorzystanie narzędzi takich jak Streamlit, Kedro oraz Weights and Biases.
+ - Wdrożenie aplikacji przewidującej popularność artykułów.
 
 # Rezultaty
 
-
+Projekt dostarczy aplikację webową umożliwiającą przewidywanie liczby udostępnień artykułów na podstawie podanych zmiennych. Opracowane modele regresyjne zostaną ocenione i zoptymalizowane, wskazując na najbardziej efektywne podejście. Wnioski uzyskane z analizy danych zostaną wykorzystane do udzielenia rekomendacji zwiększających popularność treści.
+Wykonane elementy:
+ - Wykorzystanie zbioru danych Online News Popularity z repozytorium UCI.
+ - Implementacja i porównanie modeli takich jak regresja liniowa, drzewo decyzyjne, las losowy oraz gradient boosting.
+ - Modularizacja kodu zgodnie z wytycznymi MlOps Level 0.
+ - Implementacja potoku ML w Kedro
+ - Logowanie wyników eksperymentów w Weights & Biases.
+ - Wykorzystanie AutoGluon do wyboru najlepszych algorytmów i dostrajania hiperparametrów
+ - Stworzenie oraz zintegrowanie lokalnej bazy danych MySQL do przechowywania wyników predykcji i danych wejściowych.
+ - Wystawienie endpointu FastAPI do predykcji w czasie rzeczywistym..
+ - Wdrożenie aplikacji Streamlit umożliwiającej załadowanie danych, uruchomienie pipeline'u i wizualizację wyników.
 
 # Instalacja
 
@@ -141,3 +156,8 @@ class WandBCallHook:
 ```
 
 # Wizualizacja Struktury Projektu
+Struktura projektu
+
+
+Potok Kedro
+![Alt text](/screenshots/kedro-pipeline.png "Potok Kedro")
