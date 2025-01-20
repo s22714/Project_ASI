@@ -91,3 +91,17 @@ if st.button('Save'):
         yaml.safe_dump(conn_str_service,file)
 
     st.rerun()
+
+if not newconnstr.endswith("asi_project"):
+    if st.Button('Create database'):
+        
+        engine = sqlalchemy.create_engine(newconnstr)
+        try:
+            with engine.connect() as conn:
+                conn.execute(f"CREATE DATABASE asi_project")
+                newconnstr = f"{newconnstr}/asiproject"
+                conn_str_service['my_mysql_creds']['con'] =  newconnstr
+                yaml.safe_dump(conn_str_service,file)
+        except Exception as e:
+            st.error('Could not connect')
+        st.rerun()
