@@ -19,7 +19,7 @@ def data_split(df):
 
 def create_test_predictor(train_set, test_set):
     train_data = TabularDataset(train_set)
-    predictor = TabularPredictor(label='shares', eval_metric="root_mean_squared_error", path='bestModel').fit(train_data, presets="medium_quality", excluded_model_types=['NN_TORCH', 'FASTAI'], fit_weighted_ensemble=False)
+    predictor = TabularPredictor(label='shares', eval_metric="root_mean_squared_error", path='bestModel').fit(train_data, presets="medium_quality", excluded_model_types=['NN_TORCH', 'FASTAI', 'LightGBMXT'], fit_weighted_ensemble=False)
     
     test_data = TabularDataset(test_set)
 

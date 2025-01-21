@@ -22,3 +22,4 @@ dependencies:
     - sqlalchemy
     - cloud-sql-python-connector[pymysql]
     - kedro-datasets[pandas-csvdataset]
+    - autogluon
