@@ -73,6 +73,7 @@ Dane są później przekazywane do potoku w pliku pipeline.py
 Aplikacja składa się z trzech widoków. W pierwszym  możliwa jest predykcja danych w podanym pliku .csv, lub dodanych ręcznie. Po predykcji danych ręcznie dodanych możliwe jest ich dodanie wraz z wynikiem. Jeśli jakieś pole nie zostanie wypełnione, jego wartość traktowana jest jako 0.
 Widok kolejny to “Database view” pozwalający na eksplorację oraz modyfikację danych w bazie.
 Ostatnim widokiem jest widok “Settings” w którym użytkownik może manipulować parametrami modeli, dodawać dane wymagane przez bazę danych i “WadnB” oraz uruchamiać potok Kedro.
+Apikacja daje użytkownikom równierz możliwość wyboru modelu i jego wersji, która będzie użyta do przeprowadzania predykcji.
 
 # Kedro
 
