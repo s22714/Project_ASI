@@ -15,14 +15,14 @@ st.set_page_config(page_title="Settings")
 
 
 
-with open('news-online-popularity/conf/base/parameters.yml', 'r') as file:
+with open(os.path.join('news-online-popularity','conf','base','parameters.yml'), 'r') as file:
     param_service = yaml.safe_load(file)
 
-with open('news-online-popularity/conf/local/credentials.yml', 'r') as file:
+with open(os.path.join('news-online-popularity','conf','local','credentials.yml'), 'r') as file:
     conn_str_service = yaml.safe_load(file)
 
 
-filenames = next(os.walk('news-online-popularity/data/06_models/'))
+filenames = next(os.walk(os.path.join('news-online-popularity','data','06_models')))
 if len(filenames[1]) > 0:
     mindex = filenames[1].index(param_service['model_name'])
 else:
@@ -32,7 +32,7 @@ model_name = st.radio(f"Model name ( currently {param_service['model_name']} )",
 
 
 if model_name:
-    version_names = next(os.walk(f'news-online-popularity/data/06_models/{model_name}'))
+    version_names = next(os.walk(os.path.join('news-online-popularity','data','06_models',model_name)))
     version_names[1].sort()
     vindex = version_names[1].index(param_service['model_version'])
     version_name = st.radio(f"Model version ( currently {param_service['model_version']} )",version_names[1],index=vindex)
@@ -72,7 +72,7 @@ if st.button("Run kedro"):
     st.rerun()
 
 if st.button('Save'):
-    with open('news-online-popularity/conf/base/parameters.yml', 'w') as file:
+    with open(os.path.join('news-online-popularity','conf','base','parameters.yml'), 'w') as file:
         param_service['test_size'] = newsize
         param_service['random_state'] = newrand
         param_service['model_name'] = model_name
@@ -80,7 +80,7 @@ if st.button('Save'):
         param_service['db_type'] = dbchoice
         yaml.safe_dump(param_service,file)
 
-    with open('news-online-popularity/conf/local/credentials.yml', 'w') as file:
+    with open(os.path.join('news-online-popularity','conf','local','credentials.yml'), 'w') as file:
         if dbchoice == "local":
             conn_str_service['my_mysql_creds']['con'] =  newconnstr
         else:
@@ -104,12 +104,12 @@ if not newconnstr.endswith("asi_project"):
             newconnstr = f"{newconnstr}asi_project"
             engine = sqlalchemy.create_engine(newconnstr)
             with engine.connect() as conn:    
-                df = pd.read_csv('news-online-popularity/data/03_primary/news_data_prepared.csv')
+                df = pd.read_csv(os.path.join('news-online-popularity','data','03_primary','news_data_prepared.csv'))
                 df.to_sql('newspop', con=conn, if_exists='replace', index=False)
-            with open('news-online-popularity/conf/local/credentials.yml', 'r') as file:
+            with open(os.path.join('news-online-popularity','conf','local','credentials.yml'), 'r') as file:
                 conn_str_service = yaml.safe_load(file)
             
-            with open('news-online-popularity/conf/local/credentials.yml', 'w') as file:
+            with open(os.path.join('news-online-popularity','conf','local','credentials.yml'), 'w') as file:
                 conn_str_service['my_mysql_creds']['con'] =  newconnstr
                 yaml.safe_dump(conn_str_service,file)
             st.success("database created")

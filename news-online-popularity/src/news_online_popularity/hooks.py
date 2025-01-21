@@ -5,6 +5,7 @@ import wandb
 from wandb.sklearn import plot_precision_recall, plot_feature_importances, plot_learning_curve
 import pandas as pd
 import yaml
+import os
 
 class WandBCallHook:
 
@@ -13,7 +14,7 @@ class WandBCallHook:
 
         if node.name == "data_praparation_node":
 
-            with open('news-online-popularity\\conf\\local\\credentials.yml', 'r') as file:
+            with open(os.path.join('news-online-popularity','conf','local','credentials.yml'), 'r') as file:
                 conn_str_service = yaml.safe_load(file)
 
             wandb.login(key=conn_str_service['wandbapikey'])
@@ -25,7 +26,7 @@ class WandBCallHook:
             print("########################################################### wandb logging started ########################################")
 
         if node.name == "data_split_node":
-            with open('news-online-popularity\\conf\\base\\parameters.yml', 'r') as file:
+            with open(os.path.join('news-online-popularity','conf','base','parameters.yml'), 'r') as file:
                 param_service = yaml.safe_load(file)
             wandb.config.update({"test_size": param_service['test_size'],
                          "train_len": len(outputs['X_train']),

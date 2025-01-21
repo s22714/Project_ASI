@@ -5,6 +5,7 @@ import pickle
 import kedro
 import sqlalchemy
 import yaml
+import os
 
 #Picking option
 st.sidebar.title("Select an option")
@@ -22,9 +23,9 @@ if selected_option == "CSV":
 
         df = pd.read_csv(file_to_predict, delimiter=';')
 
-        with open('news-online-popularity\\conf\\base\\parameters.yml', 'r') as file:
+        with open(os.path.join('news-online-popularity','conf','base','parameters.yml'), 'r') as file:
             param_service = yaml.safe_load(file)
-            MODEL_PATH = rf"news-online-popularity/data/06_models/{param_service['model_name']}/{param_service['model_version']}/{param_service['model_name']}"
+            MODEL_PATH = os.path.join('news-online-popularity','data','06_models',param_service['model_name'],param_service['model_version'],param_service['model_name'])
             #MODEL_PATH = r"news-online-popularity/data/06_models/decision_tree.pickle/2024-11-03T22.19.38.878Z/decision_tree.pickle"
         
         with open(MODEL_PATH, 'rb') as f:
@@ -140,7 +141,7 @@ if selected_option == "Picking":
         st.write(f"Prediction: {prediction}")
 
     if st.button("Add to database"):
-        with open('news-online-popularity\\conf\\local\\credentials.yml', 'r') as file:
+        with open(os.path.join('news-online-popularity','conf','local','credentials.yml'), 'r') as file:
             prime_service = yaml.safe_load(file)
 
         connection_string = prime_service['my_mysql_creds']['con']

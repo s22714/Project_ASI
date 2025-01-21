@@ -4,10 +4,11 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 import uvicorn
 import yaml
+import os
 
-with open('news-online-popularity\\conf\\base\\parameters.yml', 'r') as file:
+with open(os.path.join('news-online-popularity','conf','base','parameters.yml'), 'r') as file:
     param_service = yaml.safe_load(file)
-    MODEL_PATH = rf"news-online-popularity/data/06_models/{param_service['model_name']}/{param_service['model_version']}/{param_service['model_name']}"
+    MODEL_PATH = os.path.join('news-online-popularity','data','06_models',param_service['model_name'],param_service['model_version'],param_service['model_name'])
     #MODEL_PATH = r"news-online-popularity/data/06_models/decision_tree.pickle/2024-11-03T22.19.38.878Z/decision_tree.pickle"
 
 app = FastAPI(title="Single Model Predictor")

@@ -5,10 +5,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.feature_selection import f_regression
 import yaml
+import os
 
 st.set_page_config(page_title="Database")
 
-with open(f'news-online-popularity/conf/local/credentials.yml', 'r') as file:
+with open(os.path.join('news-online-popularity','conf','local','credentials.yml'), 'r') as file:
     prime_service = yaml.safe_load(file)
 
 connection_string = prime_service['my_mysql_creds']['con']
