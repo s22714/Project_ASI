@@ -7,7 +7,7 @@ W dzisiejszym świecie popularność artykułów online ma kluczowe znaczenie dl
 Celem projektu jest stworzenie aplikacji przewidującej liczbę udostępnień artykułu w internecie, wykorzystującej algorytmy uczenia maszynowego.
 Założenia projektu:
  - Wykorzystanie zbioru danych Online News Popularity z repozytorium UCI.
- - Implementacja i porównanie modeli regresyjnych takich jak regresja liniowa, drzewo decyzyjne, las losowy oraz gradient boosting.
+ - Implementacja i porównanie modeli regresyjnych takich jak regresja liniowa, drzewo decyzyjne.
  - Wykorzystanie narzędzi takich jak Streamlit, Kedro oraz Weights and Biases.
  - Wdrożenie aplikacji przewidującej popularność artykułów.
 
